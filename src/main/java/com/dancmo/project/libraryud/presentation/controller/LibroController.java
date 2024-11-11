@@ -2,23 +2,30 @@ package com.dancmo.project.libraryud.presentation.controller;
 
 import com.dancmo.project.libraryud.presentation.dto.ApiResponseDTO;
 import com.dancmo.project.libraryud.presentation.dto.LibroResponseDTO;
-import com.dancmo.project.libraryud.services.LibroService;
+import com.dancmo.project.libraryud.presentation.dto.PrestamoRequestDTO;
+import com.dancmo.project.libraryud.presentation.dto.PrestamoResponseDTO;
+import com.dancmo.project.libraryud.service.LibroService;
+import com.dancmo.project.libraryud.service.PrestamoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/libros")
-@RequiredArgsConstructor
 public class LibroController {
 
     private final LibroService libroService;
+    private final PrestamoService prestamoService;
+
+    @Autowired
+    public LibroController(LibroService libroService, PrestamoService prestamoService) {
+        this.libroService = libroService;
+        this.prestamoService = prestamoService;
+    }
 
     @GetMapping(value="/autor/{name}", produces = "application/json")
     public ApiResponseDTO<List<LibroResponseDTO>> getLibroByAutor(@PathVariable String name) {
@@ -51,6 +58,35 @@ public class LibroController {
         responseDTO.setStatus(HttpStatus.OK);
         responseDTO.setMessage("Categoria encontrada");
         responseDTO.setBody(librosResponseDTO);
+        return responseDTO;
+    }
+    @PostMapping("/prestamo/crear")
+    public ApiResponseDTO<PrestamoResponseDTO> createPrestamoById(PrestamoRequestDTO prestamoRequestDTO) {
+        PrestamoResponseDTO prestamoResponseDTO = prestamoService.createPrestamoById(prestamoRequestDTO);
+        ApiResponseDTO<PrestamoResponseDTO> responseDTO = new ApiResponseDTO<>();
+        responseDTO.setTimestamp(LocalDate.now());
+        if (prestamoResponseDTO == null) {
+            responseDTO.setStatus(HttpStatus.BAD_REQUEST);
+        }else{
+            responseDTO.setStatus(HttpStatus.OK);
+            responseDTO.setMessage("Prestamo creado con exito");
+            responseDTO.setBody(prestamoResponseDTO);
+        }
+        return responseDTO;
+    }
+
+    @GetMapping("/prestamo/{id}")
+    public ApiResponseDTO<List<LibroResponseDTO>> getPrestamoById(@PathVariable int id) {
+        List<LibroResponseDTO> libroResponseDTOS = prestamoService.getLibrosByClienteId(id);
+        ApiResponseDTO<List<LibroResponseDTO>> responseDTO = new ApiResponseDTO<>();
+        responseDTO.setTimestamp(LocalDate.now());
+        if (libroResponseDTOS == null ) {
+            responseDTO.setStatus(HttpStatus.NOT_FOUND);
+        }else{
+            responseDTO.setStatus(HttpStatus.OK);
+            responseDTO.setMessage("Libros encontrados");
+            responseDTO.setBody(libroResponseDTOS);
+        }
         return responseDTO;
     }
 }
