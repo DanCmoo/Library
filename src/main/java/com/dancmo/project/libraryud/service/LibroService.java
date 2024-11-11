@@ -1,4 +1,4 @@
-package com.dancmo.project.libraryud.services;
+package com.dancmo.project.libraryud.service;
 
 import com.dancmo.project.libraryud.persistence.entity.Libro;
 import com.dancmo.project.libraryud.presentation.dto.LibroResponseDTO;

@@ -1,4 +1,4 @@
-package com.dancmo.project.libraryud.services.implementation;
+package com.dancmo.project.libraryud.service.implementation;
 
 import com.dancmo.project.libraryud.persistence.entity.Autor;
 import com.dancmo.project.libraryud.persistence.entity.Categoria;
@@ -9,7 +9,7 @@ import com.dancmo.project.libraryud.persistence.repository.LibroRepository;
 import com.dancmo.project.libraryud.presentation.dto.ApiExtDTO;
 import com.dancmo.project.libraryud.presentation.dto.DocumentDTO;
 import com.dancmo.project.libraryud.presentation.dto.LibroResponseDTO;
-import com.dancmo.project.libraryud.services.LibroService;
+import com.dancmo.project.libraryud.service.LibroService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

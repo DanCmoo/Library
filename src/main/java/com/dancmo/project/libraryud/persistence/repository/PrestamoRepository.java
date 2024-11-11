@@ -8,7 +8,8 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface PrestamoRepository extends JpaRepository<Prestamo, Long> {
+public interface PrestamoRepository extends JpaRepository<Prestamo, Integer> {
+
     @Query("SELECT l FROM Prestamo p JOIN p.libros l WHERE p.cliente.idCliente = :id")
     List<Libro> findLibrosByClienteId(@Param("id") int clienteId);
 }

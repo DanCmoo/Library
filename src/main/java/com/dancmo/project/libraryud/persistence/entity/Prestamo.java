@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +23,8 @@ public class Prestamo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
-    private Date fechaInicioPrestamo;
-    private Date fechaFinPrestamo;
+    private LocalDate fechaInicioPrestamo;
+    private LocalDate fechaFinPrestamo;
 
     @ManyToMany(mappedBy = "prestamos")
     private List<Libro> libros = new ArrayList<>();

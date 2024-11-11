@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AutorRepository extends JpaRepository<Autor, Long> {
+public interface AutorRepository extends JpaRepository<Autor, Integer> {
     List<Autor> findAllByNombre(String autor);
 
 }
