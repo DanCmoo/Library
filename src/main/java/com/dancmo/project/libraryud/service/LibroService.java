@@ -9,5 +9,9 @@ public interface LibroService {
 
     public List<LibroResponseDTO> getLibroByCategory(String category);
     public List<LibroResponseDTO> getLibroByAutor(String autor);
+    public List<LibroResponseDTO> getLibroByTitle(String title);
+    public void saveLibro(LibroResponseDTO libro);
+    public void deleteLibro(LibroResponseDTO libro);
+    public void updateLibro(int id, LibroResponseDTO libro);
     public LibroResponseDTO fromLibroEntityToDTO(Libro book);
 }

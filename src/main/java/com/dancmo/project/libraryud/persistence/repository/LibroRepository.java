@@ -11,4 +11,5 @@ import java.util.List;
 public interface LibroRepository extends JpaRepository<Libro, Integer> {
     List<Libro> findAllByCategoria_NombreCategoria(String categoria);
     List<Libro> findAllByAutor_Nombre(String autor);
+    List<Libro> findAllByTitulo(String titulo);
 }
