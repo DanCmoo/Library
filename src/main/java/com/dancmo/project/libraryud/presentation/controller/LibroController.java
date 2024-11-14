@@ -60,6 +60,57 @@ public class LibroController {
         responseDTO.setBody(librosResponseDTO);
         return responseDTO;
     }
+
+    @GetMapping(value="/titulo/{title}", produces = "application/json")
+    public ApiResponseDTO<List<LibroResponseDTO>> getLibroByTitulo(@PathVariable String title) {
+        ApiResponseDTO<List<LibroResponseDTO>> responseDTO = new ApiResponseDTO<>();
+        List<LibroResponseDTO> librosResponseDTO = libroService.getLibroByTitle(title);
+        responseDTO.setTimestamp(LocalDate.now());
+        if (librosResponseDTO == null ) {
+            responseDTO.setStatus(HttpStatus.NOT_FOUND);
+            responseDTO.setMessage("El libro solicitado no existe.");
+            responseDTO.setBody(null);
+            return responseDTO;
+        }
+        responseDTO.setStatus(HttpStatus.OK);
+        responseDTO.setMessage("Libro(s) encontrados.");
+        responseDTO.setBody(librosResponseDTO);
+        return responseDTO;
+    }
+
+    @PostMapping("/añadir")
+    public ApiResponseDTO<String> saveLibro(LibroResponseDTO libro) {
+        libroService.saveLibro(libro);
+        ApiResponseDTO<String> responseDTO = new ApiResponseDTO<>();
+        responseDTO.setTimestamp(LocalDate.now());
+        responseDTO.setStatus(HttpStatus.CREATED);
+        responseDTO.setMessage("Libro guardado con exito.");
+        responseDTO.setBody("OK");
+        return responseDTO;
+    }
+    @PostMapping("/borrar")
+    public ApiResponseDTO<String> deleteLibro(LibroResponseDTO libro) {
+        libroService.deleteLibro(libro);
+        ApiResponseDTO<String> responseDTO = new ApiResponseDTO<>();
+        responseDTO.setTimestamp(LocalDate.now());
+        responseDTO.setStatus(HttpStatus.OK);
+        responseDTO.setMessage("Libro borrado con exito.");
+        responseDTO.setBody("OK");
+        return responseDTO;
+    }
+
+    @PostMapping("/actualizar")
+    public ApiResponseDTO<String> updateLibro(int id, LibroResponseDTO libro) {
+        libroService.updateLibro(id,libro);
+        ApiResponseDTO<String> responseDTO = new ApiResponseDTO<>();
+        responseDTO.setTimestamp(LocalDate.now());
+        responseDTO.setStatus(HttpStatus.OK);
+        responseDTO.setMessage("Libro actualizado con exito.");
+        responseDTO.setBody("OK");
+        return responseDTO;
+    }
+
+
     @PostMapping("/prestamo/crear")
     public ApiResponseDTO<PrestamoResponseDTO> createPrestamoById(PrestamoRequestDTO prestamoRequestDTO) {
         PrestamoResponseDTO prestamoResponseDTO = prestamoService.createPrestamoById(prestamoRequestDTO);
@@ -67,7 +118,7 @@ public class LibroController {
         responseDTO.setTimestamp(LocalDate.now());
         if (prestamoResponseDTO == null) {
             responseDTO.setStatus(HttpStatus.BAD_REQUEST);
-        }else{
+        } else {
             responseDTO.setStatus(HttpStatus.OK);
             responseDTO.setMessage("Prestamo creado con exito");
             responseDTO.setBody(prestamoResponseDTO);
