@@ -2,6 +2,7 @@ package com.dancmo.project.libraryud.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "clientes")
 public class Cliente {
     @Id
@@ -17,7 +19,7 @@ public class Cliente {
 
     private String nombre;
 
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String correo;
 
     @Column(nullable = false)

@@ -1,7 +1,6 @@
 package com.dancmo.project.libraryud.service;
 
 import com.dancmo.project.libraryud.persistence.entity.Libro;
-import com.dancmo.project.libraryud.persistence.entity.Prestamo;
 import com.dancmo.project.libraryud.presentation.dto.LibroResponseDTO;
 import com.dancmo.project.libraryud.presentation.dto.PrestamoRequestDTO;
 import com.dancmo.project.libraryud.presentation.dto.PrestamoResponseDTO;

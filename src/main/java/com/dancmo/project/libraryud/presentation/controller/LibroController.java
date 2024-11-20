@@ -6,7 +6,6 @@ import com.dancmo.project.libraryud.presentation.dto.PrestamoRequestDTO;
 import com.dancmo.project.libraryud.presentation.dto.PrestamoResponseDTO;
 import com.dancmo.project.libraryud.service.LibroService;
 import com.dancmo.project.libraryud.service.PrestamoService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-@PreAuthorize("hasRole('ADMIN')")
+
 @RestController
 @RequestMapping("/api/v1/libros")
 public class LibroController {
@@ -27,8 +26,9 @@ public class LibroController {
         this.libroService = libroService;
         this.prestamoService = prestamoService;
     }
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping("/autor/{name}")
+
+
+    @GetMapping("/any/autor/{name}")
     public ApiResponseDTO<List<LibroResponseDTO>> getLibroByAutor(@PathVariable String name) {
         ApiResponseDTO<List<LibroResponseDTO>> responseDTO = new ApiResponseDTO<>();
         List<LibroResponseDTO> librosResponseDTO = libroService.getLibroByAutor(name);
@@ -44,8 +44,8 @@ public class LibroController {
         responseDTO.setBody(librosResponseDTO);
         return responseDTO;
     }
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping("/categoria/{category}")
+
+    @GetMapping("/any/categoria/{category}")
     public ApiResponseDTO<List<LibroResponseDTO>> getLibroByCategoria(@PathVariable String category) {
         ApiResponseDTO<List<LibroResponseDTO>> responseDTO = new ApiResponseDTO<>();
         List<LibroResponseDTO> librosResponseDTO = libroService.getLibroByCategory(category);
@@ -61,8 +61,8 @@ public class LibroController {
         responseDTO.setBody(librosResponseDTO);
         return responseDTO;
     }
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping(value="/titulo/{title}", produces = "application/json")
+
+    @GetMapping(value="/any/titulo/{title}", produces = "application/json")
     public ApiResponseDTO<List<LibroResponseDTO>> getLibroByTitulo(@PathVariable String title) {
         ApiResponseDTO<List<LibroResponseDTO>> responseDTO = new ApiResponseDTO<>();
         List<LibroResponseDTO> librosResponseDTO = libroService.getLibroByTitle(title);
@@ -79,7 +79,7 @@ public class LibroController {
         return responseDTO;
     }
 
-    @PostMapping("/guardar")
+    @PostMapping("/admin/guardar")
     public ApiResponseDTO<String> saveLibro(LibroResponseDTO libro) {
         libroService.saveLibro(libro);
         ApiResponseDTO<String> responseDTO = new ApiResponseDTO<>();
@@ -90,7 +90,7 @@ public class LibroController {
         return responseDTO;
     }
 
-    @PostMapping("/borrar")
+    @PostMapping("/admin/borrar")
     public ApiResponseDTO<String> deleteLibro(LibroResponseDTO libro) {
         libroService.deleteLibro(libro);
         ApiResponseDTO<String> responseDTO = new ApiResponseDTO<>();
@@ -101,7 +101,7 @@ public class LibroController {
         return responseDTO;
     }
 
-    @PostMapping("/actualizar")
+    @PostMapping("/admin/actualizar")
     public ApiResponseDTO<String> updateLibro(int id, LibroResponseDTO libro) {
         libroService.updateLibro(id,libro);
         ApiResponseDTO<String> responseDTO = new ApiResponseDTO<>();
@@ -112,8 +112,7 @@ public class LibroController {
         return responseDTO;
     }
 
-    @PreAuthorize("hasRole('USER')")
-    @PostMapping("/prestamo/crear")
+    @PostMapping("/any/prestamo/crear")
     public ApiResponseDTO<PrestamoResponseDTO> createPrestamoById(PrestamoRequestDTO prestamoRequestDTO) {
         PrestamoResponseDTO prestamoResponseDTO = prestamoService.createPrestamoById(prestamoRequestDTO);
         ApiResponseDTO<PrestamoResponseDTO> responseDTO = new ApiResponseDTO<>();
@@ -127,8 +126,9 @@ public class LibroController {
         }
         return responseDTO;
     }
-    @PreAuthorize("hasRole('USER') or #id == authentication.principal.id ")
-    @GetMapping("/prestamo/{id}")
+
+    @PreAuthorize("#id == authentication.principal.id")
+    @GetMapping("/any/prestamo/{id}")
     public ApiResponseDTO<List<LibroResponseDTO>> getPrestamoById(@PathVariable int id) {
         List<LibroResponseDTO> libroResponseDTOS = prestamoService.getLibrosByClienteId(id);
         ApiResponseDTO<List<LibroResponseDTO>> responseDTO = new ApiResponseDTO<>();

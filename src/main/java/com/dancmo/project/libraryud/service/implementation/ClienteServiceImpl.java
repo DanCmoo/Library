@@ -22,7 +22,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public boolean registrarCliente(ClienteDTO clienteDTO) {
 
-        if (clienteRepository.findByCorreo(clienteDTO.getCorreo()) != null) {
+        if (clienteRepository.findByCorreo(clienteDTO.getCorreo()).isPresent()) {
             return false;
         }
 
@@ -31,6 +31,7 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.setNombre(clienteDTO.getNombre());
         cliente.setPassword(passwordEncoder.encode(clienteDTO.getPassword()));
         cliente.setRole("USER");
+        clienteRepository.save(cliente);
 
         return true;
     }
